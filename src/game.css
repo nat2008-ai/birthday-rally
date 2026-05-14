@@ -1,0 +1,783 @@
+/* ═══════════════════════════════════════════════════
+   BIRTHDAY RALLY — GAME STYLES
+   All classes prefixed with .g- to avoid conflicts
+═══════════════════════════════════════════════════ */
+
+/* ---------- Viewport & Frame ---------- */
+.g-viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #000;
+  font-family: 'Inter', sans-serif;
+}
+
+.g-frame {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+  border-radius: 32px;
+  background: linear-gradient(to bottom, #071017 0%, #2b4d68 37.616%);
+  flex-shrink: 0;
+}
+
+/* ---------- Court Background ---------- */
+.g-back-wall {
+  position: absolute;
+  left: 1px; top: 0;
+  width: 390px; height: 372px;
+  background: rgba(0,0,0,0.3);
+}
+
+.g-court-floor {
+  position: absolute;
+  left: 0; top: 372px;
+  width: 390px; height: 472px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 37px,
+      rgba(0,0,0,0.045) 37px,
+      rgba(0,0,0,0.045) 38.5px
+    ),
+    #ffb767;
+}
+
+.g-court-horizon {
+  position: absolute;
+  left: 0; top: 371.5px;
+  width: 390px; height: 9px;
+  object-fit: fill;
+}
+
+/* ---------- Net ---------- */
+.g-net {
+  position: absolute;
+  left: 32px; top: 298px;
+  width: 325px; height: 97px;
+  object-fit: fill;
+}
+
+/* ---------- Ball ---------- */
+.g-ball-wrap {
+  position: absolute;
+  pointer-events: none;
+}
+
+.g-ball-wrap img {
+  position: absolute;
+  left: -13.57%;
+  top: -8.57%;
+  width: 127.14%;
+  height: 127.2%;
+  display: block;
+  max-width: none;
+}
+
+.g-ball-shadow {
+  position: absolute;
+  left: 104px; top: 666px;
+  width: 182px; height: 36px;
+  object-fit: fill;
+}
+
+/* ---------- HUD (Rally counter + Gift Box button) ---------- */
+.g-hud {
+  position: absolute;
+  left: 25px; top: 73px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+.g-rally-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  padding: 0 12px;
+  background: rgba(0,0,0,0.42);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 11px;
+  color: #fff;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.g-gift-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 35px;
+  padding: 0 12px;
+  background: rgba(249,115,22,0.24);
+  border: 1px solid rgba(255,179,102,0.55);
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+}
+
+.g-gift-btn img {
+  width: 12px; height: 12px;
+  object-fit: contain;
+}
+
+.g-gift-btn span {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 11px;
+  color: #ffb366;
+  white-space: nowrap;
+}
+
+/* ---------- Primary Button ---------- */
+.g-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 71px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.3);
+  cursor: pointer;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+  color: #111;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.g-btn:active {
+  transform: scale(0.97);
+}
+
+.g-btn-orange {
+  background: #f97316;
+}
+
+.g-btn-light {
+  background: #e8e8e8;
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 01 — BIRTHDAY INTRO
+════════════════════════════════════════════ */
+.g-intro-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #071017 50.172%, #26577d 111.49%);
+}
+
+.g-confetti {
+  position: absolute;
+  border-radius: 2px;
+}
+
+.g-intro-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 155px;
+  width: 282px;
+  font-family: 'Jersey 15', monospace;
+  font-size: 14px;
+  color: #e8e8e8;
+  text-align: center;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+}
+
+.g-intro-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 192px;
+  width: 318px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 82px;
+  color: #f97316;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.g-intro-body {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 459px;
+  width: 272px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 20px;
+  color: #fff1df;
+  text-align: center;
+  line-height: 1.12;
+}
+
+.g-intro-btn-wrap {
+  position: absolute;
+  left: 33px; top: 690px;
+  width: 318px;
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 02A — SERVE
+════════════════════════════════════════════ */
+.g-serve-title,
+.g-serve-title * {
+  font-family: 'Jersey 15', monospace;
+  font-size: 55px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.88;
+}
+.g-serve-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 153px;
+  width: 274px;
+}
+
+.g-serve-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 714px;
+  width: 236px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+}
+
+.g-swipe-arrow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20%;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  animation: g-bounce-up 1.2s ease-in-out infinite;
+}
+
+@keyframes g-bounce-up {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-12px); }
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 02D — SPIKE
+════════════════════════════════════════════ */
+.g-spike-text,
+.g-spike-text * {
+  font-family: 'Jersey 15', monospace;
+  font-size: 55px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.88;
+}
+.g-spike-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 560px;
+  width: 274px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Tap ripple on spike */
+.g-tap-ripple {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid rgba(249,115,22,0.6);
+  animation: g-ripple 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes g-ripple {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 02G — MISSED
+════════════════════════════════════════════ */
+.g-missed-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 544px;
+  width: 274px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 45px;
+  color: #fff;
+  text-align: center;
+}
+
+.g-missed-btn-wrap {
+  position: absolute;
+  left: 33px; top: 690px;
+  width: 318px;
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 02F — RALLY WON
+════════════════════════════════════════════ */
+.g-rally-won-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 112px;
+  width: 274px;
+  font-family: 'Jersey 15', monospace;
+  font-size: 85px;
+  color: #fff;
+  text-align: center;
+  line-height: 0.88;
+  z-index: 5;
+}
+
+.g-rally-won-btn-wrap {
+  position: absolute;
+  left: 33px; top: 690px;
+  width: 318px;
+  z-index: 30;
+}
+
+/* Celebration burst container */
+.g-celebration {
+  position: absolute;
+  left: 50%;
+  top: 262px;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 90px;
+  z-index: 3;
+}
+
+.g-celebrate-ray {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 60px; height: 3px;
+  border-radius: 2px;
+  transform-origin: left center;
+  animation: g-burst-ray 0.6s ease-out forwards;
+}
+
+@keyframes g-burst-ray {
+  0% { transform: rotate(var(--angle)) scaleX(0); opacity: 1; }
+  60% { transform: rotate(var(--angle)) scaleX(1.1); opacity: 1; }
+  100% { transform: rotate(var(--angle)) scaleX(0.8); opacity: 0; }
+}
+
+.g-confetti-burst {
+  position: absolute;
+  border-radius: 2px;
+  animation: g-confetti-fall 1s ease-out forwards;
+}
+
+@keyframes g-confetti-fall {
+  0% { transform: translate(0, 0) rotate(var(--rot)) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) + 180deg)) scale(0); opacity: 0; }
+}
+
+.g-popper-l {
+  position: absolute;
+  left: 53px; top: 242px;
+  width: 80px; height: 80px;
+  object-fit: contain;
+  z-index: 4;
+}
+
+.g-popper-r {
+  position: absolute;
+  right: 44px; top: 242px;
+  width: 80px; height: 80px;
+  object-fit: contain;
+  transform: rotate(-90deg);
+  z-index: 4;
+}
+
+/* ════════════════════════════════════════════
+   SCREENS 3/4/5 — GIFT CLOSED
+════════════════════════════════════════════ */
+.g-gift-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+.g-gift-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 112px;
+  width: 310px;
+  font-family: 'Jersey 15', monospace;
+  font-size: 85px;
+  color: #fff;
+  text-align: center;
+  line-height: 0.88;
+  z-index: 25;
+}
+
+.g-gift-item-wrap {
+  position: absolute;
+  left: 50%;
+  top: 235px;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: 350px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.g-gift-item-wrap img {
+  width: 284px; height: 284px;
+  object-fit: contain;
+}
+
+.g-gift-subtitle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 585px;
+  width: 372px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 26px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.08;
+  z-index: 25;
+}
+
+.g-gift-tap-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 724px;
+  width: 372px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  z-index: 25;
+}
+
+/* ════════════════════════════════════════════
+   SCREENS 3/4/5 — GIFT OPENED
+════════════════════════════════════════════ */
+.g-gift-opened-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+.g-gift-card {
+  position: absolute;
+  left: 28px;
+  top: 46px;
+  width: 334px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.42);
+  border-radius: 22px;
+  padding: 30px 20px;
+  z-index: 25;
+  font-family: 'Fustat', sans-serif;
+  font-size: 20px;
+  color: #111;
+  text-align: center;
+  line-height: 1.4;
+  overflow-y: auto;
+}
+
+.g-gift-card-big {
+  top: 160px;
+  max-height: 510px;
+}
+
+.g-gift-opened-btn-wrap {
+  position: absolute;
+  left: 33px;
+  bottom: 50px;
+  width: 318px;
+  z-index: 25;
+}
+
+/* ════════════════════════════════════════════
+   GIFT BOX SCREEN
+════════════════════════════════════════════ */
+.g-giftbox-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #071017 55.904%, #26577d 100%);
+}
+
+/* Perspective lines decoration */
+.g-giftbox-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.35;
+}
+
+.g-giftbox-line {
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #f97316 30%, #f97316 70%, transparent);
+  transform-origin: center center;
+}
+
+.g-back-btn {
+  position: absolute;
+  left: 24px; top: 58px;
+  width: 86px; height: 42px;
+  background: rgba(0,0,0,0.38);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.g-back-btn span {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+
+.g-giftbox-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 155px;
+  width: 282px;
+  font-family: 'Jersey 15', monospace;
+  font-size: 14px;
+  color: #e8e8e8;
+  text-align: center;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+}
+
+.g-giftbox-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 173px;
+  width: 318px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 82px;
+  color: #f97316;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.g-giftbox-sub {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 260px;
+  width: 282px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 18px;
+  color: #f8d5b4;
+  text-align: center;
+  line-height: 1.12;
+}
+
+.g-gift-slots {
+  position: absolute;
+  left: 36px; top: 331px;
+  width: 318px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.g-gift-slot {
+  background: #071017;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 25px;
+  padding: 15px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  outline: none;
+  min-height: 70px;
+}
+
+.g-gift-slot-open {
+  cursor: pointer;
+}
+
+.g-gift-slot-open:active {
+  transform: scale(0.98);
+}
+
+.g-gift-slot-label {
+  font-family: 'Jockey One', sans-serif;
+  font-size: 37px;
+  color: #f8d5b4;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: pre;
+}
+
+.g-gift-slot-locked {
+  font-family: 'Jockey One', sans-serif;
+  font-size: 17px;
+  color: #f8d5b4;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.42;
+}
+
+.g-giftbox-play-btn-wrap {
+  position: absolute;
+  left: 36px; top: 719px;
+  width: 318px;
+}
+
+/* ════════════════════════════════════════════
+   SCREEN 6 — FINALE
+════════════════════════════════════════════ */
+.g-finale-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+}
+
+.g-finale-overlay-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: fill;
+}
+
+.g-finale-popper {
+  position: absolute;
+  left: 50%;
+  top: 175px;
+  transform: translateX(-50%) rotate(-90deg);
+  width: 80px; height: 80px;
+  object-fit: contain;
+  z-index: 25;
+}
+
+.g-finale-anim1-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 282px;
+  width: 310px;
+  font-family: 'Jersey 15', monospace;
+  font-size: 85px;
+  color: #fff;
+  text-align: center;
+  line-height: 0.88;
+  z-index: 25;
+}
+
+.g-finale-anim2-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 145px;
+  width: 318px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 82px;
+  color: #f97316;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.92;
+  z-index: 25;
+}
+
+.g-finale-sub {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 496px;
+  width: 372px;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 26px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.25;
+  z-index: 25;
+}
+
+.g-finale-btns {
+  position: absolute;
+  left: 33px;
+  top: 641px;
+  width: 318px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 25;
+}
+
+/* ════════════════════════════════════════════
+   SCREEN TRANSITIONS
+════════════════════════════════════════════ */
+.g-screen {
+  position: absolute;
+  inset: 0;
+}
+
+/* ════════════════════════════════════════════
+   SPIKE PULSE — tap timing indicator
+════════════════════════════════════════════ */
+.g-spike-pulse {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 30;
+}
+
+@keyframes g-spike-pulse-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ════════════════════════════════════════════
+   SWIPE GESTURE INDICATOR
+════════════════════════════════════════════ */
+.g-swipe-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  cursor: pointer;
+}
