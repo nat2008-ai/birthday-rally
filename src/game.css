@@ -82,7 +82,7 @@
 
 .g-ball-shadow {
   position: absolute;
-  left: 104px; top: 666px;
+  left: 104px; top: 638px;
   width: 182px; height: 36px;
   object-fit: fill;
 }
@@ -189,7 +189,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 155px;
+  top: 90px;
   width: 282px;
   font-family: 'Jersey 15', monospace;
   font-size: 14px;
@@ -203,7 +203,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 192px;
+  top: 120px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
   font-size: 82px;
@@ -217,7 +217,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 459px;
+  top: 370px;
   width: 272px;
   font-family: 'Jockey One', sans-serif;
   font-size: 20px;
@@ -257,13 +257,14 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 80px;
+  bottom: 28px;
   width: 236px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 18px;
   color: #fff;
   text-align: center;
+  z-index: 35;
 }
 
 .g-swipe-arrow {
@@ -724,7 +725,7 @@
   top: 145px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
-  font-size: 82px;
+  font-size: 58px;
   color: #f97316;
   text-align: center;
   text-transform: uppercase;
@@ -736,7 +737,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 496px;
+  top: 340px;
   width: 372px;
   font-family: 'Jockey One', sans-serif;
   font-size: 26px;

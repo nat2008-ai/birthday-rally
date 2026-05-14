@@ -44,7 +44,7 @@ const CX    = 195;  // horizontal center of 390px frame
 
 // Ball positions — only top+size; left is always CX - size/2
 const BPOS = {
-  serve:  { top: 440, size: 210 },  // user floor, large
+  serve:  { top: 415, size: 200 },  // user floor, large
   opp:    { top: 175, size: 52  },  // opponent side
   peak:   { top: 75,  size: 46  },  // arc apex
   spike:  { top: 305, size: 200 },  // mid-frame, ready to spike
@@ -95,11 +95,11 @@ const GIFTS = [
     closedImageRot: -15.7,
     openedContent: (
       <>
-        <p style={{lineHeight: 1.23}}>Thank you for not giving up on life cause honestly life would be so boring without you.</p>
-        <p style={{marginTop: 16, fontWeight: 700, lineHeight: 1.23}}>ILY WEEKEND GIRLFRIEND</p>
-        <p style={{marginTop: 16, fontSize: 16, lineHeight: 1.23}}>Here's rare pic of us every time we ask the question</p>
-        <p style={{fontWeight: 700, fontSize: 16, lineHeight: 1.23}}>"What should we eat this weekend"</p>
-        <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 150, objectFit: 'cover', borderRadius: 11, marginTop: 16, display: 'block'}} />
+        <p style={{lineHeight: 1.23, fontSize: 17}}>Thank you for not giving up on life cause honestly life would be so boring without you.</p>
+        <p style={{marginTop: 10, fontWeight: 700, lineHeight: 1.23, fontSize: 17}}>ILY WEEKEND GIRLFRIEND</p>
+        <p style={{marginTop: 10, fontSize: 14, lineHeight: 1.23}}>Here's rare pic of us every time we ask the question</p>
+        <p style={{fontWeight: 700, fontSize: 14, lineHeight: 1.23}}>"What should we eat this weekend"</p>
+        <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 105, objectFit: 'cover', borderRadius: 11, marginTop: 12, display: 'block'}} />
       </>
     ),
     openedBtn: 'Next Rally',
@@ -112,11 +112,11 @@ const GIFTS = [
     closedImageRot: -13.07,
     openedContent: (
       <>
-        <p style={{fontSize: 66, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
-        <p style={{fontSize: 36, marginTop: 8, lineHeight: 1.14}}>Movie Date</p>
-        <p style={{fontSize: 36, lineHeight: 1.14}}>you &amp; me? 👀</p>
-        <p style={{fontSize: 24, marginTop: 16, lineHeight: 1.15, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
-        <p style={{fontSize: 24, marginTop: 8, lineHeight: 1.15}}>(Hee-hee) <span style={{fontSize: 36}}>🎩🕶️🕺🎤</span></p>
+        <p style={{fontSize: 48, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
+        <p style={{fontSize: 26, marginTop: 6, lineHeight: 1.14}}>Movie Date</p>
+        <p style={{fontSize: 26, lineHeight: 1.14}}>you &amp; me? 👀</p>
+        <p style={{fontSize: 16, marginTop: 10, lineHeight: 1.4, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
+        <p style={{fontSize: 16, marginTop: 6, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 24}}>🎩🕶️🕺🎤</span></p>
       </>
     ),
     openedBtn: 'Next Rally',
@@ -129,12 +129,12 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 80, lineHeight: 1.08}}>🎁</p>
-        <p style={{fontSize: 38, lineHeight: 1.03}}>EXCLUSIVE</p>
-        <p style={{fontSize: 38, lineHeight: 1.03}}>BATAM TRIP</p>
-        <p style={{fontSize: 38, lineHeight: 1.03}}>🗣️🗣️🗣️</p>
-        <p style={{fontSize: 20, marginTop: 10, lineHeight: 1.15}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 20, lineHeight: 1.08}}>Redeem anytime 🏝️</p>
+        <p style={{fontSize: 64, lineHeight: 1.05, marginBottom: 4}}>🎁</p>
+        <p style={{fontSize: 32, lineHeight: 1.05}}>EXCLUSIVE</p>
+        <p style={{fontSize: 32, lineHeight: 1.05}}>BATAM TRIP</p>
+        <p style={{fontSize: 32, lineHeight: 1.05}}>🗣️🗣️🗣️</p>
+        <p style={{fontSize: 16, marginTop: 8, lineHeight: 1.4}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 16, lineHeight: 1.4}}>Redeem anytime 🏝️</p>
       </>
     ),
     openedBtn: 'Tap to continue',
