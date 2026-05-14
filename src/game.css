@@ -228,7 +228,8 @@
 
 .g-intro-btn-wrap {
   position: absolute;
-  left: 33px; top: 690px;
+  left: 33px;
+  bottom: 50px;
   width: 318px;
 }
 
@@ -256,7 +257,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 714px;
+  bottom: 80px;
   width: 236px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -335,7 +336,8 @@
 
 .g-missed-btn-wrap {
   position: absolute;
-  left: 33px; top: 690px;
+  left: 33px;
+  bottom: 50px;
   width: 318px;
 }
 
@@ -358,7 +360,8 @@
 
 .g-rally-won-btn-wrap {
   position: absolute;
-  left: 33px; top: 690px;
+  left: 33px;
+  bottom: 50px;
   width: 318px;
   z-index: 30;
 }
@@ -747,7 +750,7 @@
 .g-finale-btns {
   position: absolute;
   left: 33px;
-  top: 641px;
+  bottom: 50px;
   width: 318px;
   display: flex;
   flex-direction: column;
