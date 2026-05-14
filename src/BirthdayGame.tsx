@@ -99,7 +99,7 @@ const GIFTS = [
         <p style={{marginTop: 16, fontWeight: 700, lineHeight: 1.23}}>ILY WEEKEND GIRLFRIEND</p>
         <p style={{marginTop: 16, fontSize: 16, lineHeight: 1.23}}>Here's rare pic of us every time we ask the question</p>
         <p style={{fontWeight: 700, fontSize: 16, lineHeight: 1.23}}>"What should we eat this weekend"</p>
-        <img src={IMG.telepathy} alt="" style={{width: '100%', borderRadius: 11, marginTop: 16, display: 'block'}} />
+        <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 150, objectFit: 'cover', borderRadius: 11, marginTop: 16, display: 'block'}} />
       </>
     ),
     openedBtn: 'Next Rally',
@@ -129,12 +129,12 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 116, lineHeight: 1.08}}>🎁</p>
-        <p style={{fontSize: 46, lineHeight: 1.03}}>EXCLUSIVE</p>
-        <p style={{fontSize: 46, lineHeight: 1.03}}>BATAM TRIP</p>
-        <p style={{fontSize: 46, lineHeight: 1.03}}>🗣️🗣️🗣️</p>
-        <p style={{fontSize: 24, marginTop: 16, lineHeight: 1.15}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 24, lineHeight: 1.08}}>Redeem anytime 🏝️</p>
+        <p style={{fontSize: 80, lineHeight: 1.08}}>🎁</p>
+        <p style={{fontSize: 38, lineHeight: 1.03}}>EXCLUSIVE</p>
+        <p style={{fontSize: 38, lineHeight: 1.03}}>BATAM TRIP</p>
+        <p style={{fontSize: 38, lineHeight: 1.03}}>🗣️🗣️🗣️</p>
+        <p style={{fontSize: 20, marginTop: 10, lineHeight: 1.15}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 20, lineHeight: 1.08}}>Redeem anytime 🏝️</p>
       </>
     ),
     openedBtn: 'Tap to continue',
@@ -177,6 +177,17 @@ function GameHUD({ rallyIndex, onGiftBox }: HUDProps) {
 // ─────────────────────────────────────────────
 export default function BirthdayGame() {
   const [screen, setScreen] = useState<Screen>('intro');
+  const [frameScale, setFrameScale] = useState(1);
+
+  useEffect(() => {
+    const update = () => {
+      const scale = Math.min(window.innerWidth / 390, window.innerHeight / 844, 1);
+      setFrameScale(scale);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
   const [rallyIndex, setRallyIndex] = useState(0);          // 0,1,2
   const [unlockedGifts, setUnlockedGifts] = useState(0);   // 0..3
   const [prevScreen, setPrevScreen] = useState<Screen>('serve');
@@ -594,7 +605,7 @@ export default function BirthdayGame() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-              style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 4 }}
+              style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 25 }}
             >
               <img className="g-popper-l" src={IMG.popperL} alt="" />
               <img className="g-popper-r" src={IMG.popperL} alt="" />
@@ -858,7 +869,7 @@ export default function BirthdayGame() {
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="g-viewport">
-      <div className="g-frame">
+      <div className="g-frame" style={frameScale < 1 ? { transform: `scale(${frameScale})` } : undefined}>
         <AnimatePresence mode="wait">
           {screen === 'intro' && renderIntro()}
           {['serve','ball_away','ball_back','spike','spike_away','missed','rally_won'].includes(screen) && renderGame()}
