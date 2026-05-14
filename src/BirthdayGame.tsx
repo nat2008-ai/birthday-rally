@@ -177,17 +177,6 @@ function GameHUD({ rallyIndex, onGiftBox }: HUDProps) {
 // ─────────────────────────────────────────────
 export default function BirthdayGame() {
   const [screen, setScreen] = useState<Screen>('intro');
-  const [frameScale, setFrameScale] = useState(1);
-
-  useEffect(() => {
-    const update = () => {
-      const scale = Math.min(window.innerWidth / 390, window.innerHeight / 844, 1);
-      setFrameScale(scale);
-    };
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
   const [rallyIndex, setRallyIndex] = useState(0);          // 0,1,2
   const [unlockedGifts, setUnlockedGifts] = useState(0);   // 0..3
   const [prevScreen, setPrevScreen] = useState<Screen>('serve');
@@ -869,7 +858,7 @@ export default function BirthdayGame() {
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="g-viewport">
-      <div className="g-frame" style={frameScale < 1 ? { transform: `scale(${frameScale})` } : undefined}>
+      <div className="g-frame">
         <AnimatePresence mode="wait">
           {screen === 'intro' && renderIntro()}
           {['serve','ball_away','ball_back','spike','spike_away','missed','rally_won'].includes(screen) && renderGame()}
