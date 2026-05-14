@@ -99,7 +99,7 @@ const GIFTS = [
         <p style={{marginTop: 10, fontWeight: 700, lineHeight: 1.23, fontSize: 17}}>ILY WEEKEND GIRLFRIEND</p>
         <p style={{marginTop: 10, fontSize: 14, lineHeight: 1.23}}>Here's rare pic of us every time we ask the question</p>
         <p style={{fontWeight: 700, fontSize: 14, lineHeight: 1.23}}>"What should we eat this weekend"</p>
-        <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 105, objectFit: 'cover', borderRadius: 11, marginTop: 12, display: 'block'}} />
+        <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 145, objectFit: 'contain', borderRadius: 11, marginTop: 12, display: 'block'}} />
       </>
     ),
     openedBtn: 'Next Rally',
@@ -113,9 +113,9 @@ const GIFTS = [
     openedContent: (
       <>
         <p style={{fontSize: 48, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
-        <p style={{fontSize: 26, marginTop: 6, lineHeight: 1.14}}>Movie Date</p>
-        <p style={{fontSize: 26, lineHeight: 1.14}}>you &amp; me? 👀</p>
-        <p style={{fontSize: 16, marginTop: 10, lineHeight: 1.4, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
+        <p style={{fontSize: 26, marginTop: 10, lineHeight: 1.05}}>Movie Date</p>
+        <p style={{fontSize: 26, lineHeight: 1.05}}>you &amp; me? 👀</p>
+        <p style={{fontSize: 16, marginTop: 12, lineHeight: 1.4, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
         <p style={{fontSize: 16, marginTop: 6, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 24}}>🎩🕶️🕺🎤</span></p>
       </>
     ),
@@ -129,12 +129,12 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 64, lineHeight: 1.05, marginBottom: 4}}>🎁</p>
-        <p style={{fontSize: 32, lineHeight: 1.05}}>EXCLUSIVE</p>
-        <p style={{fontSize: 32, lineHeight: 1.05}}>BATAM TRIP</p>
-        <p style={{fontSize: 32, lineHeight: 1.05}}>🗣️🗣️🗣️</p>
-        <p style={{fontSize: 16, marginTop: 8, lineHeight: 1.4}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 16, lineHeight: 1.4}}>Redeem anytime 🏝️</p>
+        <p style={{fontSize: 56, lineHeight: 1.0}}>🎁</p>
+        <p style={{fontSize: 30, lineHeight: 0.95, marginTop: 6}}>EXCLUSIVE</p>
+        <p style={{fontSize: 30, lineHeight: 0.95}}>BATAM TRIP</p>
+        <p style={{fontSize: 30, lineHeight: 0.95}}>🗣️🗣️🗣️</p>
+        <p style={{fontSize: 15, marginTop: 10, lineHeight: 1.4}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 15, lineHeight: 1.4}}>Redeem anytime 🏝️</p>
       </>
     ),
     openedBtn: 'Tap to continue',

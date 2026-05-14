@@ -90,7 +90,7 @@
 /* ---------- HUD (Rally counter + Gift Box button) ---------- */
 .g-hud {
   position: absolute;
-  left: 25px; top: 73px;
+  left: 25px; top: 48px;
   right: 25px;
   display: flex;
   align-items: center;
@@ -510,7 +510,7 @@
   background: #fff;
   border: 1px solid rgba(0,0,0,0.42);
   border-radius: 22px;
-  padding: 30px 20px;
+  padding: 20px 20px;
   z-index: 25;
   font-family: 'Fustat', sans-serif;
   font-size: 20px;
@@ -563,7 +563,7 @@
 
 .g-back-btn {
   position: absolute;
-  left: 24px; top: 58px;
+  left: 24px; top: 38px;
   width: 86px; height: 42px;
   background: rgba(0,0,0,0.38);
   border: 1px solid rgba(255,255,255,0.2);
@@ -586,7 +586,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 155px;
+  top: 105px;
   width: 282px;
   font-family: 'Jersey 15', monospace;
   font-size: 14px;
@@ -600,7 +600,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 173px;
+  top: 122px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
   font-size: 82px;
@@ -614,7 +614,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 260px;
+  top: 205px;
   width: 282px;
   font-family: 'Jockey One', sans-serif;
   font-size: 18px;
@@ -625,24 +625,24 @@
 
 .g-gift-slots {
   position: absolute;
-  left: 36px; top: 331px;
+  left: 36px; top: 258px;
   width: 318px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 14px;
 }
 
 .g-gift-slot {
   background: #071017;
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 25px;
-  padding: 15px 10px;
+  padding: 10px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: default;
   outline: none;
-  min-height: 70px;
+  min-height: 56px;
 }
 
 .g-gift-slot-open {
