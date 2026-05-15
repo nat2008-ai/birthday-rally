@@ -586,7 +586,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 105px;
+  top: 88px;
   width: 282px;
   font-family: 'Jersey 15', monospace;
   font-size: 14px;
@@ -600,7 +600,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 122px;
+  top: 106px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
   font-size: 82px;
@@ -614,7 +614,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 205px;
+  top: 268px;
   width: 282px;
   font-family: 'Jockey One', sans-serif;
   font-size: 18px;
@@ -625,7 +625,7 @@
 
 .g-gift-slots {
   position: absolute;
-  left: 36px; top: 258px;
+  left: 36px; top: 310px;
   width: 318px;
   display: flex;
   flex-direction: column;

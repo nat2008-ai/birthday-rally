@@ -95,8 +95,8 @@ const GIFTS = [
     closedImageRot: -15.7,
     openedContent: (
       <>
-        <p style={{lineHeight: 1.23, fontSize: 17}}>Thank you for not giving up on life cause honestly life would be so boring without you.</p>
-        <p style={{marginTop: 10, fontWeight: 700, lineHeight: 1.23, fontSize: 17}}>ILY WEEKEND GIRLFRIEND</p>
+        <p style={{lineHeight: 1.23, fontSize: 17}}>Thank you for not giving up on life cause honestly life would be so boring without you 🥺</p>
+        <p style={{marginTop: 10, fontWeight: 700, lineHeight: 1.23, fontSize: 17}}>ILY WEEKEND GIRLFRIEND ❤️</p>
         <p style={{marginTop: 10, fontSize: 14, lineHeight: 1.23}}>Here's rare pic of us every time we ask the question</p>
         <p style={{fontWeight: 700, fontSize: 14, lineHeight: 1.23}}>"What should we eat this weekend"</p>
         <img src={IMG.telepathy} alt="" style={{width: '100%', maxHeight: 145, objectFit: 'contain', borderRadius: 11, marginTop: 12, display: 'block'}} />
@@ -113,8 +113,8 @@ const GIFTS = [
     openedContent: (
       <>
         <p style={{fontSize: 48, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
-        <p style={{fontSize: 26, marginTop: 10, lineHeight: 1.05}}>Movie Date</p>
-        <p style={{fontSize: 26, lineHeight: 1.05}}>you &amp; me? 👀</p>
+        <p style={{fontSize: 26, marginTop: 10, lineHeight: 0.9}}>Movie Date</p>
+        <p style={{fontSize: 26, lineHeight: 0.9}}>you &amp; me? 👀</p>
         <p style={{fontSize: 16, marginTop: 12, lineHeight: 1.4, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
         <p style={{fontSize: 16, marginTop: 6, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 24}}>🎩🕶️🕺🎤</span></p>
       </>
@@ -130,9 +130,9 @@ const GIFTS = [
     openedContent: (
       <>
         <p style={{fontSize: 56, lineHeight: 1.0}}>🎁</p>
-        <p style={{fontSize: 30, lineHeight: 0.95, marginTop: 6}}>EXCLUSIVE</p>
-        <p style={{fontSize: 30, lineHeight: 0.95}}>BATAM TRIP</p>
-        <p style={{fontSize: 30, lineHeight: 0.95}}>🗣️🗣️🗣️</p>
+        <p style={{fontSize: 30, lineHeight: 0.88, marginTop: 4}}>EXCLUSIVE</p>
+        <p style={{fontSize: 30, lineHeight: 0.88}}>BATAM TRIP</p>
+        <p style={{fontSize: 30, lineHeight: 0.88}}>🗣️🗣️🗣️</p>
         <p style={{fontSize: 15, marginTop: 10, lineHeight: 1.4}}>Enjoy 1x night free stay</p>
         <p style={{fontSize: 15, lineHeight: 1.4}}>Redeem anytime 🏝️</p>
       </>
