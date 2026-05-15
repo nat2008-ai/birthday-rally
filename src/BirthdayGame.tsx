@@ -129,10 +129,8 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 56, lineHeight: 1.0}}>🎁</p>
-        <p style={{fontSize: 30, lineHeight: 0.88, marginTop: 4}}>EXCLUSIVE</p>
-        <p style={{fontSize: 30, lineHeight: 0.88}}>BATAM TRIP</p>
-        <p style={{fontSize: 30, lineHeight: 0.88}}>🗣️🗣️🗣️</p>
+        <p style={{fontSize: 76, lineHeight: 1.0}}>🎁</p>
+        <p style={{fontSize: 30, lineHeight: 1.1, marginTop: 4, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
         <p style={{fontSize: 15, marginTop: 10, lineHeight: 1.4}}>Enjoy 1x night free stay</p>
         <p style={{fontSize: 15, lineHeight: 1.4}}>Redeem anytime 🏝️</p>
       </>

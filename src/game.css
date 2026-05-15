@@ -349,7 +349,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 112px;
+  top: 75px;
   width: 274px;
   font-family: 'Jersey 15', monospace;
   font-size: 85px;
@@ -406,7 +406,7 @@
 
 .g-popper-l {
   position: absolute;
-  left: 53px; top: 242px;
+  left: 53px; top: 165px;
   width: 80px; height: 80px;
   object-fit: contain;
   z-index: 4;
@@ -414,7 +414,7 @@
 
 .g-popper-r {
   position: absolute;
-  right: 44px; top: 242px;
+  right: 44px; top: 165px;
   width: 80px; height: 80px;
   object-fit: contain;
   transform: rotate(-90deg);
@@ -600,7 +600,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 106px;
+  top: 94px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
   font-size: 82px;
@@ -614,7 +614,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 268px;
+  top: 252px;
   width: 282px;
   font-family: 'Jockey One', sans-serif;
   font-size: 18px;
@@ -674,7 +674,7 @@
 .g-giftbox-play-btn-wrap {
   position: absolute;
   left: 36px;
-  bottom: 50px;
+  bottom: 28px;
   width: 318px;
 }
 
