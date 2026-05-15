@@ -359,17 +359,16 @@ export default function BirthdayGame() {
   const { startAudio } = useGameAudio(screen);
 
   // ── SFX refs ──────────────────────────────────────────────────
-  const spikeSfx    = useRef<HTMLAudioElement | null>(null);
-  const whistleSfx  = useRef<HTMLAudioElement | null>(null);
-  const spikeSfxCtx = useRef<AudioContext | null>(null);
+  const spikeSfx   = useRef<HTMLAudioElement | null>(null);
+  const whistleSfx = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const spk = new Audio('/audio/tap-spike.mp3');
-    spk.loop = false; spk.load();
+    spk.loop = false; spk.volume = 1.0; spk.load();
     spikeSfx.current = spk;
 
     const whi = new Audio('/audio/whistle.mp3');
-    whi.loop = false; whi.load();
+    whi.loop = false; whi.volume = 1.0; whi.load();
     whistleSfx.current = whi;
   }, []);
 
@@ -490,23 +489,9 @@ export default function BirthdayGame() {
     setShowRipple(true);
     setTimeout(() => setShowRipple(false), 700);
 
-    // Play spike SFX at 3× volume via GainNode (AudioContext created lazily inside gesture)
+    // Play spike SFX immediately on tap
     const spk = spikeSfx.current;
-    if (spk) {
-      if (!spikeSfxCtx.current) {
-        try {
-          const ctx = new AudioContext();
-          const gain = ctx.createGain();
-          gain.gain.value = 3.0;
-          ctx.createMediaElementSource(spk).connect(gain);
-          gain.connect(ctx.destination);
-          spikeSfxCtx.current = ctx;
-        } catch (_) {}
-      }
-      spikeSfxCtx.current?.resume().catch(() => {});
-      spk.currentTime = 0;
-      spk.play().catch(() => {});
-    }
+    if (spk) { spk.currentTime = 0; spk.play().catch(() => {}); }
 
     // Unlock whistle on iOS (play+pause in gesture handler so it can fire later)
     const whi = whistleSfx.current;
