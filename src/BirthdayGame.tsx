@@ -30,12 +30,12 @@ function useGameAudio(screen: Screen) {
   const curTrack = useRef<TrackName | null>(null);
   const started  = useRef(false);
   const timers   = useRef<Partial<Record<TrackName, ReturnType<typeof setInterval>>>>({});
-  // Always-current screen reference — lets startAudio read the live screen value
-  // even if called from a stale closure (e.g. frame-level onClick)
+
+  // Live screen ref — lets startAudio read the actual screen without deps
   const screenRef = useRef(screen);
   screenRef.current = screen;
 
-  // Init audio elements once
+  // ── Init ──────────────────────────────────────────────────────
   useEffect(() => {
     NAMES.forEach(name => {
       const a = new Audio(TRACK_SRC[name]);
@@ -53,16 +53,17 @@ function useGameAudio(screen: Screen) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── Internal helpers (only touch refs — safe in stale closures) ─
   function stopFade(name: TrackName) {
     clearInterval(timers.current[name]);
     delete timers.current[name];
   }
 
-  // Fade IN — only calls .play() when element is paused (safe to call repeatedly)
-  function fadeIn(name: TrackName) {
+  function doFadeIn(name: TrackName) {
     const a = tracks.current[name];
     if (!a) return;
     stopFade(name);
+    // play() is safe here: element was unlocked in the gesture handler
     if (a.paused) a.play().catch(() => {});
     timers.current[name] = setInterval(() => {
       a.volume = Math.min(1, a.volume + FADE_STEP);
@@ -70,8 +71,7 @@ function useGameAudio(screen: Screen) {
     }, FADE_MS);
   }
 
-  // Fade OUT then pause
-  function fadeOut(name: TrackName) {
+  function doFadeOut(name: TrackName) {
     const a = tracks.current[name];
     if (!a || (a.paused && a.volume === 0)) { stopFade(name); return; }
     stopFade(name);
@@ -85,11 +85,11 @@ function useGameAudio(screen: Screen) {
     if (next === curTrack.current) return;
     const prev = curTrack.current;
     curTrack.current = next;
-    if (prev) fadeOut(prev);
-    fadeIn(next);
+    if (prev) doFadeOut(prev);
+    doFadeIn(next);
   }
 
-  // Switch tracks when screen changes (only fires once audio is unlocked)
+  // ── React to screen changes ───────────────────────────────────
   useEffect(() => {
     if (!started.current) return;
     switchTo(getTrackForScreen(screen));
@@ -97,38 +97,32 @@ function useGameAudio(screen: Screen) {
   }, [screen]);
 
   // ── startAudio ────────────────────────────────────────────────
-  // MUST be called from a real user gesture so mobile Safari allows
-  // audio.  We silently unlock ALL three elements (volume=0, play→pause)
-  // inside the same gesture handler, then start the correct track.
-  // After that, switchTo() called from useEffect works freely on iOS.
+  // iOS Safari blocks audio.play() from async contexts (useEffect, Promises).
+  // Solution: call play() + pause() on EVERY element SYNCHRONOUSLY inside the
+  // gesture handler — this "unlocks" them.  After that, play() works anywhere.
+  //
+  // We also immediately start the correct track for the current screen here
+  // (synchronously), so intro.mp3 actually plays on the intro screen.
   const startAudio = useCallback(() => {
     if (started.current) return;
     started.current = true;
 
-    // Unlock every track silently within the gesture handler
-    const unlocks = NAMES.map(name => {
+    // 1. Unlock all tracks SYNCHRONOUSLY in the gesture handler (volume = 0 → silent)
+    NAMES.forEach(name => {
       const a = tracks.current[name];
-      if (!a) return Promise.resolve();
+      if (!a) return;
       a.volume = 0;
-      return a.play()
-        .then(() => { a.pause(); a.currentTime = 0; })
-        .catch(() => {});
+      a.play().catch(() => {}); // fire — this call unlocks the element on iOS
+      a.pause();                // immediately pause — element stays unlocked
+      a.currentTime = 0;
     });
 
-    // After all unlocks complete, fade in the track for the current screen.
-    // Read screenRef (not closure) to get the live screen value — important
-    // because setScreen('serve') may have already fired by this point.
-    Promise.all(unlocks).then(() => {
-      const track = getTrackForScreen(screenRef.current);
-      curTrack.current = track;
-      fadeIn(track);
-    });
-
-    // Also set curTrack synchronously so any switchTo that fires before
-    // the promise resolves uses the correct baseline.
-    curTrack.current = getTrackForScreen(screenRef.current);
+    // 2. Start the correct track for the current screen right now (synchronous)
+    const track = getTrackForScreen(screenRef.current);
+    curTrack.current = track;
+    doFadeIn(track);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // stable — no deps; all mutable state is accessed via refs
+  }, []); // stable — no React deps; reads only refs
 
   return { startAudio };
 }
@@ -566,7 +560,7 @@ export default function BirthdayGame() {
           </motion.div>
         </div>
         <div className="g-intro-btn-wrap">
-          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => { startAudio(); setScreen('serve'); }}>
+          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => { startAudio(); setTimeout(() => setScreen('serve'), 400); }}>
             Play Now
           </button>
         </div>
