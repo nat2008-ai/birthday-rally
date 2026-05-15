@@ -3,6 +3,116 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from '
 import './game.css';
 
 // ─────────────────────────────────────────────
+// AUDIO MANAGER HOOK
+// Fades between 3 tracks based on screen.
+// Audio starts only after first user interaction.
+// ─────────────────────────────────────────────
+type TrackName = 'intro' | 'rally' | 'giftbox';
+
+const TRACK_SRC: Record<TrackName, string> = {
+  intro:   '/audio/intro.mp3',
+  rally:   '/audio/rally.mp3',
+  giftbox: '/audio/giftbox.mp3',
+};
+
+const FADE_STEP = 0.05;   // volume step per tick
+const FADE_MS   = 40;     // ms per tick → ~800 ms total fade
+
+function getTrackForScreen(screen: Screen): TrackName {
+  if (screen === 'intro') return 'intro';
+  if (['serve','ball_away','ball_back','spike','spike_away','missed','rally_won'].includes(screen)) return 'rally';
+  return 'giftbox';
+}
+
+function useGameAudio(screen: Screen) {
+  const tracks    = useRef<Record<TrackName, HTMLAudioElement | null>>({ intro: null, rally: null, giftbox: null });
+  const current   = useRef<TrackName | null>(null);
+  const started   = useRef(false);
+  const fadeTimers = useRef<Record<TrackName, ReturnType<typeof setInterval> | null>>({ intro: null, rally: null, giftbox: null });
+
+  // Initialize audio elements once
+  useEffect(() => {
+    const entries = Object.entries(TRACK_SRC) as [TrackName, string][];
+    entries.forEach(([name, src]) => {
+      const a = new Audio(src);
+      a.loop = true;
+      a.volume = 0;
+      tracks.current[name] = a;
+    });
+    return () => {
+      entries.forEach(([name]) => {
+        const a = tracks.current[name];
+        if (a) { a.pause(); a.src = ''; }
+        const t = fadeTimers.current[name];
+        if (t) clearInterval(t);
+      });
+    };
+  }, []);
+
+  const clearFade = (name: TrackName) => {
+    if (fadeTimers.current[name]) {
+      clearInterval(fadeTimers.current[name]!);
+      fadeTimers.current[name] = null;
+    }
+  };
+
+  const fadeOut = useCallback((name: TrackName) => {
+    const audio = tracks.current[name];
+    if (!audio) return;
+    clearFade(name);
+    fadeTimers.current[name] = setInterval(() => {
+      if (audio.volume > FADE_STEP) {
+        audio.volume = Math.max(0, audio.volume - FADE_STEP);
+      } else {
+        audio.volume = 0;
+        audio.pause();
+        clearFade(name);
+      }
+    }, FADE_MS);
+  }, []);
+
+  const fadeIn = useCallback((name: TrackName) => {
+    const audio = tracks.current[name];
+    if (!audio) return;
+    clearFade(name);
+    audio.play().catch(() => {});
+    fadeTimers.current[name] = setInterval(() => {
+      if (audio.volume < 1 - FADE_STEP) {
+        audio.volume = Math.min(1, audio.volume + FADE_STEP);
+      } else {
+        audio.volume = 1;
+        clearFade(name);
+      }
+    }, FADE_MS);
+  }, []);
+
+  const switchTrack = useCallback((next: TrackName) => {
+    if (next === current.current) return;
+    const prev = current.current;
+    current.current = next;
+    if (prev) fadeOut(prev);
+    fadeIn(next);
+  }, [fadeIn, fadeOut]);
+
+  // Start on first interaction
+  const startAudio = useCallback(() => {
+    if (started.current) return;
+    started.current = true;
+    const track = getTrackForScreen(screen);
+    current.current = track;
+    fadeIn(track);
+  }, [fadeIn, screen]);
+
+  // Switch track whenever screen changes (after audio has started)
+  useEffect(() => {
+    if (!started.current) return;
+    switchTrack(getTrackForScreen(screen));
+  }, [screen, switchTrack]);
+
+  return { startAudio };
+}
+
+// ─────────────────────────────────────────────
 // IMAGE ASSETS (from Figma)
 // ─────────────────────────────────────────────
 const IMG = {
@@ -181,6 +291,8 @@ export default function BirthdayGame() {
   const [showRipple, setShowRipple] = useState(false);
   const [ripplePos, setRipplePos] = useState({ x: 195, y: 350 });
   const [giftboxViewGift, setGiftboxViewGift] = useState<number | null>(null);
+
+  const { startAudio } = useGameAudio(screen);
 
   const missTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -433,7 +545,7 @@ export default function BirthdayGame() {
           </motion.div>
         </div>
         <div className="g-intro-btn-wrap">
-          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => setScreen('serve')}>
+          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => { startAudio(); setScreen('serve'); }}>
             Play Now
           </button>
         </div>
@@ -514,9 +626,9 @@ export default function BirthdayGame() {
         {screen === 'serve' && (
           <div
             className="g-swipe-overlay"
-            onTouchStart={onTouchStart}
+            onTouchStart={(e) => { startAudio(); onTouchStart(e); }}
             onTouchEnd={onTouchEnd}
-            onClick={handleServe}
+            onClick={() => { startAudio(); handleServe(); }}
           />
         )}
 
@@ -524,8 +636,8 @@ export default function BirthdayGame() {
         {screen === 'spike' && (
           <div
             className="g-swipe-overlay"
-            onClick={handleSpikeTap}
-            onTouchStart={(e) => { e.preventDefault(); handleSpikeTap(e); }}
+            onClick={(e) => { startAudio(); handleSpikeTap(e); }}
+            onTouchStart={(e) => { e.preventDefault(); startAudio(); handleSpikeTap(e); }}
           />
         )}
 
