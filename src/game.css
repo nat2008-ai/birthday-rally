@@ -349,7 +349,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 75px;
+  top: 58px;
   width: 274px;
   font-family: 'Jersey 15', monospace;
   font-size: 85px;
@@ -406,7 +406,7 @@
 
 .g-popper-l {
   position: absolute;
-  left: 53px; top: 165px;
+  left: 53px; top: 148px;
   width: 80px; height: 80px;
   object-fit: contain;
   z-index: 4;
@@ -414,7 +414,7 @@
 
 .g-popper-r {
   position: absolute;
-  right: 44px; top: 165px;
+  right: 44px; top: 148px;
   width: 80px; height: 80px;
   object-fit: contain;
   transform: rotate(-90deg);
@@ -586,7 +586,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 88px;
+  top: 76px;
   width: 282px;
   font-family: 'Jersey 15', monospace;
   font-size: 14px;
@@ -600,7 +600,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 94px;
+  top: 82px;
   width: 318px;
   font-family: 'Jockey One', sans-serif;
   font-size: 82px;
@@ -614,7 +614,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 252px;
+  top: 238px;
   width: 282px;
   font-family: 'Jockey One', sans-serif;
   font-size: 18px;
@@ -625,7 +625,7 @@
 
 .g-gift-slots {
   position: absolute;
-  left: 36px; top: 310px;
+  left: 36px; top: 294px;
   width: 318px;
   display: flex;
   flex-direction: column;
