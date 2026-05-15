@@ -304,10 +304,10 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 100, lineHeight: 1.0, marginBottom: 0}}>🎁</p>
-        <p style={{fontSize: 34, lineHeight: 1.03, marginTop: 4, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
-        <p style={{fontSize: 17, marginTop: 18, lineHeight: 1.45}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.45}}>Redeem anytime</p>
+        <p style={{fontSize: 88, lineHeight: 1.0, marginBottom: 0, marginTop: -10}}>🎁</p>
+        <p style={{fontSize: 34, lineHeight: 1.03, marginTop: 2, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
+        <p style={{fontSize: 17, marginTop: 12, lineHeight: 1.45}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 17, marginTop: 6, lineHeight: 1.45}}>Redeem anytime</p>
       </>
     ),
     openedBtn: 'Tap to continue',
