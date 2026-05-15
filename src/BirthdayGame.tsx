@@ -359,15 +359,21 @@ export default function BirthdayGame() {
   const { startAudio } = useGameAudio(screen);
 
   // ── SFX refs ──────────────────────────────────────────────────
-  const spikeSfx    = useRef<HTMLAudioElement | null>(null);
-  const whistleSfx  = useRef<HTMLAudioElement | null>(null);
-  const spikeSfxCtx = useRef<AudioContext | null>(null); // lazy Web Audio context
+  const spikeSfx   = useRef<HTMLAudioElement | null>(null);
+  const whistleSfx = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    spikeSfx.current  = new Audio('/audio/tap-spike.mp3');
-    spikeSfx.current.loop = false;
-    whistleSfx.current = new Audio('/audio/whistle.mp3');
-    whistleSfx.current.loop = false;
+    const spk = new Audio('/audio/tap-spike.mp3');
+    spk.loop = false;
+    spk.volume = 1.0;
+    spk.load();
+    spikeSfx.current = spk;
+
+    const whi = new Audio('/audio/whistle.mp3');
+    whi.loop = false;
+    whi.volume = 1.0;
+    whi.load();
+    whistleSfx.current = whi;
   }, []);
 
   // Play whistle once when NICE SPIKE! screen appears
@@ -487,26 +493,9 @@ export default function BirthdayGame() {
     setShowRipple(true);
     setTimeout(() => setShowRipple(false), 700);
 
-    // Play spike SFX immediately on tap (3× gain via Web Audio)
+    // Play spike SFX immediately on tap
     const spk = spikeSfx.current;
-    if (spk) {
-      // Lazy-init AudioContext inside gesture so iOS never suspends it
-      if (!spikeSfxCtx.current) {
-        try {
-          const ctx = new AudioContext();
-          const src = ctx.createMediaElementSource(spk);
-          const gain = ctx.createGain();
-          gain.gain.value = 3.0;
-          src.connect(gain);
-          gain.connect(ctx.destination);
-          spikeSfxCtx.current = ctx;
-        } catch (_) { /* fallback: plays at native volume */ }
-      }
-      // Resume context synchronously inside gesture (iOS requirement)
-      spikeSfxCtx.current?.resume().catch(() => {});
-      spk.currentTime = 0;
-      spk.play().catch(() => {});
-    }
+    if (spk) { spk.currentTime = 0; spk.play().catch(() => {}); }
 
     // Unlock whistle on iOS (play+pause in gesture handler so it can fire later)
     const whi = whistleSfx.current;
