@@ -375,7 +375,7 @@ export default function BirthdayGame() {
       const ctx = new AudioContext();
       const src = ctx.createMediaElementSource(spkAudio);
       const gain = ctx.createGain();
-      gain.gain.value = 1.5;
+      gain.gain.value = 3.0;
       src.connect(gain);
       gain.connect(ctx.destination);
       // iOS requires AudioContext resume inside a gesture; resume on first play
