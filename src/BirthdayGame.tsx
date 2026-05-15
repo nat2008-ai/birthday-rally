@@ -166,7 +166,7 @@ function useGameAudio(screen: Screen) {
       const start = performance.now();
       function fadeIn(now: number) {
         const t = Math.min((now - start) / FADE_MS, 1);
-        if (els.current[track]) els.current[track].volume = t;
+        if (a) a.volume = t;
         if (t < 1) rafId.current = requestAnimationFrame(fadeIn);
       }
       rafId.current = requestAnimationFrame(fadeIn);
