@@ -287,11 +287,11 @@ const GIFTS = [
     closedImageRot: -13.07,
     openedContent: (
       <>
-        <p style={{fontSize: 48, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
-        <p style={{fontSize: 26, marginTop: 10, lineHeight: 0.9}}>Movie Date</p>
-        <p style={{fontSize: 26, lineHeight: 0.9}}>you &amp; me? 👀</p>
-        <p style={{fontSize: 16, marginTop: 12, lineHeight: 1.4, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
-        <p style={{fontSize: 16, marginTop: 6, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 24}}>🎩🕶️🕺🎤</span></p>
+        <p style={{fontSize: 52, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
+        <p style={{fontSize: 28, marginTop: 10, lineHeight: 1.14}}>Movie Date</p>
+        <p style={{fontSize: 28, lineHeight: 1.14}}>you &amp; me? <span style={{fontSize: 22}}>👀</span></p>
+        <p style={{fontSize: 17, marginTop: 14, lineHeight: 1.45, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
+        <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 28}}>🎩🕶️🕺🎤</span></p>
       </>
     ),
     openedBtn: 'Next Rally',
@@ -304,10 +304,10 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 84, lineHeight: 1.0, marginBottom: -6}}>🎁</p>
-        <p style={{fontSize: 30, lineHeight: 1.05, marginTop: 0, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
-        <p style={{fontSize: 14, marginTop: 8, lineHeight: 1.35}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 14, lineHeight: 1.35}}>Redeem anytime 🏝️</p>
+        <p style={{fontSize: 100, lineHeight: 1.0, marginBottom: 0}}>🎁</p>
+        <p style={{fontSize: 34, lineHeight: 1.03, marginTop: 4}}>EXCLUSIVE BATAM TRIP🗣️🗣️🗣️</p>
+        <p style={{fontSize: 17, marginTop: 18, lineHeight: 1.45}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.45}}>Redeem anytime</p>
       </>
     ),
     openedBtn: 'Tap to continue',
