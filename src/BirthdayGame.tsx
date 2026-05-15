@@ -25,89 +25,110 @@ function getTrackForScreen(screen: Screen): TrackName {
 }
 
 function useGameAudio(screen: Screen) {
-  const tracks    = useRef<Record<TrackName, HTMLAudioElement | null>>({ intro: null, rally: null, giftbox: null });
-  const current   = useRef<TrackName | null>(null);
-  const started   = useRef(false);
-  const fadeTimers = useRef<Record<TrackName, ReturnType<typeof setInterval> | null>>({ intro: null, rally: null, giftbox: null });
+  const NAMES: TrackName[] = ['intro', 'rally', 'giftbox'];
+  const tracks   = useRef<Record<TrackName, HTMLAudioElement | null>>({ intro: null, rally: null, giftbox: null });
+  const curTrack = useRef<TrackName | null>(null);
+  const started  = useRef(false);
+  const timers   = useRef<Partial<Record<TrackName, ReturnType<typeof setInterval>>>>({});
+  // Always-current screen reference — lets startAudio read the live screen value
+  // even if called from a stale closure (e.g. frame-level onClick)
+  const screenRef = useRef(screen);
+  screenRef.current = screen;
 
-  // Initialize audio elements once
+  // Init audio elements once
   useEffect(() => {
-    const entries = Object.entries(TRACK_SRC) as [TrackName, string][];
-    entries.forEach(([name, src]) => {
-      const a = new Audio(src);
-      a.loop = true;
+    NAMES.forEach(name => {
+      const a = new Audio(TRACK_SRC[name]);
+      a.loop   = true;
       a.volume = 0;
       tracks.current[name] = a;
     });
     return () => {
-      entries.forEach(([name]) => {
+      NAMES.forEach(name => {
+        clearInterval(timers.current[name]);
         const a = tracks.current[name];
         if (a) { a.pause(); a.src = ''; }
-        const t = fadeTimers.current[name];
-        if (t) clearInterval(t);
       });
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const clearFade = (name: TrackName) => {
-    if (fadeTimers.current[name]) {
-      clearInterval(fadeTimers.current[name]!);
-      fadeTimers.current[name] = null;
-    }
-  };
+  function stopFade(name: TrackName) {
+    clearInterval(timers.current[name]);
+    delete timers.current[name];
+  }
 
-  const fadeOut = useCallback((name: TrackName) => {
-    const audio = tracks.current[name];
-    if (!audio) return;
-    clearFade(name);
-    fadeTimers.current[name] = setInterval(() => {
-      if (audio.volume > FADE_STEP) {
-        audio.volume = Math.max(0, audio.volume - FADE_STEP);
-      } else {
-        audio.volume = 0;
-        audio.pause();
-        clearFade(name);
-      }
+  // Fade IN — only calls .play() when element is paused (safe to call repeatedly)
+  function fadeIn(name: TrackName) {
+    const a = tracks.current[name];
+    if (!a) return;
+    stopFade(name);
+    if (a.paused) a.play().catch(() => {});
+    timers.current[name] = setInterval(() => {
+      a.volume = Math.min(1, a.volume + FADE_STEP);
+      if (a.volume >= 1) { a.volume = 1; stopFade(name); }
     }, FADE_MS);
-  }, []);
+  }
 
-  const fadeIn = useCallback((name: TrackName) => {
-    const audio = tracks.current[name];
-    if (!audio) return;
-    clearFade(name);
-    audio.play().catch(() => {});
-    fadeTimers.current[name] = setInterval(() => {
-      if (audio.volume < 1 - FADE_STEP) {
-        audio.volume = Math.min(1, audio.volume + FADE_STEP);
-      } else {
-        audio.volume = 1;
-        clearFade(name);
-      }
+  // Fade OUT then pause
+  function fadeOut(name: TrackName) {
+    const a = tracks.current[name];
+    if (!a || (a.paused && a.volume === 0)) { stopFade(name); return; }
+    stopFade(name);
+    timers.current[name] = setInterval(() => {
+      a.volume = Math.max(0, a.volume - FADE_STEP);
+      if (a.volume <= 0) { a.volume = 0; a.pause(); stopFade(name); }
     }, FADE_MS);
-  }, []);
+  }
 
-  const switchTrack = useCallback((next: TrackName) => {
-    if (next === current.current) return;
-    const prev = current.current;
-    current.current = next;
+  function switchTo(next: TrackName) {
+    if (next === curTrack.current) return;
+    const prev = curTrack.current;
+    curTrack.current = next;
     if (prev) fadeOut(prev);
     fadeIn(next);
-  }, [fadeIn, fadeOut]);
+  }
 
-  // Start on first interaction
+  // Switch tracks when screen changes (only fires once audio is unlocked)
+  useEffect(() => {
+    if (!started.current) return;
+    switchTo(getTrackForScreen(screen));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen]);
+
+  // ── startAudio ────────────────────────────────────────────────
+  // MUST be called from a real user gesture so mobile Safari allows
+  // audio.  We silently unlock ALL three elements (volume=0, play→pause)
+  // inside the same gesture handler, then start the correct track.
+  // After that, switchTo() called from useEffect works freely on iOS.
   const startAudio = useCallback(() => {
     if (started.current) return;
     started.current = true;
-    const track = getTrackForScreen(screen);
-    current.current = track;
-    fadeIn(track);
-  }, [fadeIn, screen]);
 
-  // Switch track whenever screen changes (after audio has started)
-  useEffect(() => {
-    if (!started.current) return;
-    switchTrack(getTrackForScreen(screen));
-  }, [screen, switchTrack]);
+    // Unlock every track silently within the gesture handler
+    const unlocks = NAMES.map(name => {
+      const a = tracks.current[name];
+      if (!a) return Promise.resolve();
+      a.volume = 0;
+      return a.play()
+        .then(() => { a.pause(); a.currentTime = 0; })
+        .catch(() => {});
+    });
+
+    // After all unlocks complete, fade in the track for the current screen.
+    // Read screenRef (not closure) to get the live screen value — important
+    // because setScreen('serve') may have already fired by this point.
+    Promise.all(unlocks).then(() => {
+      const track = getTrackForScreen(screenRef.current);
+      curTrack.current = track;
+      fadeIn(track);
+    });
+
+    // Also set curTrack synchronously so any switchTo that fires before
+    // the promise resolves uses the correct baseline.
+    curTrack.current = getTrackForScreen(screenRef.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // stable — no deps; all mutable state is accessed via refs
 
   return { startAudio };
 }
@@ -968,7 +989,9 @@ export default function BirthdayGame() {
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="g-viewport">
-      <div className="g-frame">
+      {/* Frame-level handler: catches the very first tap anywhere on the intro
+          screen so music starts before the user reaches Play Now */}
+      <div className="g-frame" onClick={startAudio}>
         <AnimatePresence mode="wait">
           {screen === 'intro' && renderIntro()}
           {['serve','ball_away','ball_back','spike','spike_away','missed','rally_won'].includes(screen) && renderGame()}
