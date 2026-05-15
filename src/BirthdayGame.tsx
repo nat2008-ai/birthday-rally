@@ -4,8 +4,6 @@ import './game.css';
 
 // ─────────────────────────────────────────────
 // AUDIO MANAGER HOOK
-// Fades between 3 tracks based on screen.
-// Audio starts only after first user interaction.
 // ─────────────────────────────────────────────
 type TrackName = 'intro' | 'rally' | 'giftbox';
 
@@ -14,9 +12,8 @@ const TRACK_SRC: Record<TrackName, string> = {
   rally:   '/audio/rally.mp3',
   giftbox: '/audio/giftbox.mp3',
 };
-
-const FADE_STEP = 0.05;   // volume step per tick
-const FADE_MS   = 40;     // ms per tick → ~800 ms total fade
+const ALL_TRACKS: TrackName[] = ['intro', 'rally', 'giftbox'];
+const FADE_MS = 600; // crossfade duration in ms
 
 function getTrackForScreen(screen: Screen): TrackName {
   if (screen === 'intro') return 'intro';
@@ -25,104 +22,136 @@ function getTrackForScreen(screen: Screen): TrackName {
 }
 
 function useGameAudio(screen: Screen) {
-  const NAMES: TrackName[] = ['intro', 'rally', 'giftbox'];
-  const tracks   = useRef<Record<TrackName, HTMLAudioElement | null>>({ intro: null, rally: null, giftbox: null });
+  const els      = useRef<Record<TrackName, HTMLAudioElement>>({} as Record<TrackName, HTMLAudioElement>);
   const curTrack = useRef<TrackName | null>(null);
-  const started  = useRef(false);
-  const timers   = useRef<Partial<Record<TrackName, ReturnType<typeof setInterval>>>>({});
-
-  // Live screen ref — lets startAudio read the actual screen without deps
+  const unlocked = useRef(false);
+  const rafId    = useRef<number>(0);
   const screenRef = useRef(screen);
   screenRef.current = screen;
 
-  // ── Init ──────────────────────────────────────────────────────
+  // Init elements once
   useEffect(() => {
-    NAMES.forEach(name => {
+    ALL_TRACKS.forEach(name => {
       const a = new Audio(TRACK_SRC[name]);
       a.loop   = true;
       a.volume = 0;
-      tracks.current[name] = a;
+      els.current[name] = a;
     });
     return () => {
-      NAMES.forEach(name => {
-        clearInterval(timers.current[name]);
-        const a = tracks.current[name];
-        if (a) { a.pause(); a.src = ''; }
-      });
+      cancelAnimationFrame(rafId.current);
+      ALL_TRACKS.forEach(name => { els.current[name]?.pause(); });
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Internal helpers (only touch refs — safe in stale closures) ─
-  function stopFade(name: TrackName) {
-    clearInterval(timers.current[name]);
-    delete timers.current[name];
+  // Hard-stop every track except `keep` — prevents bleed-through
+  function silenceAllExcept(keep: TrackName | null) {
+    ALL_TRACKS.forEach(name => {
+      if (name === keep) return;
+      const a = els.current[name];
+      if (!a) return;
+      a.volume = 0;
+      if (!a.paused) a.pause();
+    });
   }
 
-  function doFadeIn(name: TrackName) {
-    const a = tracks.current[name];
-    if (!a) return;
-    stopFade(name);
-    // play() is safe here: element was unlocked in the gesture handler
-    if (a.paused) a.play().catch(() => {});
-    timers.current[name] = setInterval(() => {
-      a.volume = Math.min(1, a.volume + FADE_STEP);
-      if (a.volume >= 1) { a.volume = 1; stopFade(name); }
-    }, FADE_MS);
-  }
-
-  function doFadeOut(name: TrackName) {
-    const a = tracks.current[name];
-    if (!a || (a.paused && a.volume === 0)) { stopFade(name); return; }
-    stopFade(name);
-    timers.current[name] = setInterval(() => {
-      a.volume = Math.max(0, a.volume - FADE_STEP);
-      if (a.volume <= 0) { a.volume = 0; a.pause(); stopFade(name); }
-    }, FADE_MS);
-  }
-
-  function switchTo(next: TrackName) {
+  // RAF-based crossfade: fades `prev` out and `next` in over FADE_MS
+  function crossfadeTo(next: TrackName) {
     if (next === curTrack.current) return;
-    const prev = curTrack.current;
+
+    const prev     = curTrack.current;
+    const prevEl   = prev ? els.current[prev] : null;
+    const nextEl   = els.current[next];
+    if (!nextEl) return;
+
     curTrack.current = next;
-    if (prev) doFadeOut(prev);
-    doFadeIn(next);
+
+    // Kill any in-progress fade
+    cancelAnimationFrame(rafId.current);
+
+    // Silence everything that isn't prev or next
+    ALL_TRACKS.forEach(name => {
+      if (name !== next && name !== prev) {
+        const a = els.current[name];
+        if (!a) return;
+        a.volume = 0;
+        if (!a.paused) a.pause();
+      }
+    });
+
+    const prevStart = prevEl ? prevEl.volume : 0;
+    const start     = performance.now();
+
+    // Start the incoming track
+    if (nextEl.paused) nextEl.play().catch(() => {});
+
+    function tick(now: number) {
+      const t = Math.min((now - start) / FADE_MS, 1);
+
+      // Fade out previous
+      if (prevEl) {
+        prevEl.volume = Math.max(0, prevStart * (1 - t));
+        if (t >= 1) { prevEl.volume = 0; if (!prevEl.paused) prevEl.pause(); }
+      }
+      // Fade in next
+      nextEl.volume = Math.min(1, t);
+
+      if (t < 1) {
+        rafId.current = requestAnimationFrame(tick);
+      } else {
+        nextEl.volume = 1;
+        // Guarantee silence on everything else
+        silenceAllExcept(next);
+      }
+    }
+
+    rafId.current = requestAnimationFrame(tick);
   }
 
-  // ── React to screen changes ───────────────────────────────────
+  // React to screen changes — runs after audio is unlocked
   useEffect(() => {
-    if (!started.current) return;
-    switchTo(getTrackForScreen(screen));
+    if (!unlocked.current) return;
+    crossfadeTo(getTrackForScreen(screen));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen]);
 
   // ── startAudio ────────────────────────────────────────────────
-  // iOS Safari blocks audio.play() from async contexts (useEffect, Promises).
-  // Solution: call play() + pause() on EVERY element SYNCHRONOUSLY inside the
-  // gesture handler — this "unlocks" them.  After that, play() works anywhere.
-  //
-  // We also immediately start the correct track for the current screen here
-  // (synchronously), so intro.mp3 actually plays on the intro screen.
+  // MUST be called from a real user gesture (iOS Safari autoplay policy).
+  // We call play() on every element synchronously here — that permanently
+  // "unlocks" them so future play() calls from useEffect work freely.
   const startAudio = useCallback(() => {
-    if (started.current) return;
-    started.current = true;
+    if (unlocked.current) return;
+    unlocked.current = true;
 
-    // 1. Unlock all tracks SYNCHRONOUSLY in the gesture handler (volume = 0 → silent)
-    NAMES.forEach(name => {
-      const a = tracks.current[name];
+    // Unlock every track silently inside the gesture handler
+    ALL_TRACKS.forEach(name => {
+      const a = els.current[name];
       if (!a) return;
       a.volume = 0;
-      a.play().catch(() => {}); // fire — this call unlocks the element on iOS
-      a.pause();                // immediately pause — element stays unlocked
+      // play() in gesture handler = iOS unlock; catch AbortError from immediate pause
+      a.play().catch(() => {});
+      a.pause();
       a.currentTime = 0;
     });
 
-    // 2. Start the correct track for the current screen right now (synchronous)
+    // Start the correct track for the current screen right now
     const track = getTrackForScreen(screenRef.current);
     curTrack.current = track;
-    doFadeIn(track);
+    const a = els.current[track];
+    if (a) {
+      if (a.paused) a.play().catch(() => {});
+      // Fade it in with RAF
+      const start = performance.now();
+      function fadeIn(now: number) {
+        const t = Math.min((now - start) / FADE_MS, 1);
+        a.volume = t;
+        if (t < 1) rafId.current = requestAnimationFrame(fadeIn);
+        else a.volume = 1;
+      }
+      rafId.current = requestAnimationFrame(fadeIn);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // stable — no React deps; reads only refs
+  }, []); // stable — all state via refs
 
   return { startAudio };
 }
