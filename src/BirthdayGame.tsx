@@ -4,6 +4,11 @@ import './game.css';
 
 // ─────────────────────────────────────────────
 // AUDIO MANAGER HOOK
+// Track map:
+//   intro screen          → silent (null)
+//   rally screens         → rally.mp3
+//   gift / giftbox        → giftbox.mp3
+//   finale (screen 6)     → intro.mp3
 // ─────────────────────────────────────────────
 type TrackName = 'intro' | 'rally' | 'giftbox';
 
@@ -13,11 +18,14 @@ const TRACK_SRC: Record<TrackName, string> = {
   giftbox: '/audio/giftbox.mp3',
 };
 const ALL_TRACKS: TrackName[] = ['intro', 'rally', 'giftbox'];
-const FADE_MS = 600; // crossfade duration in ms
+const FADE_MS = 600; // crossfade duration ms
 
-function getTrackForScreen(screen: Screen): TrackName {
-  if (screen === 'intro') return 'intro';
+// Returns null → silence (intro screen is silent until first rally)
+function getTrackForScreen(screen: Screen): TrackName | null {
+  if (screen === 'intro') return null;
   if (['serve','ball_away','ball_back','spike','spike_away','missed','rally_won'].includes(screen)) return 'rally';
+  if (['finale_anim1','finale_anim2'].includes(screen)) return 'intro';
+  // gift_closed, gift_opened, giftbox
   return 'giftbox';
 }
 
@@ -44,7 +52,28 @@ function useGameAudio(screen: Screen) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Hard-stop every track except `keep` — prevents bleed-through
+  // Page Visibility API — pause when tab is hidden, resume when visible
+  useEffect(() => {
+    function onVisibility() {
+      if (!unlocked.current) return;
+      if (document.hidden) {
+        cancelAnimationFrame(rafId.current);
+        ALL_TRACKS.forEach(name => { els.current[name]?.pause(); });
+      } else {
+        // Resume only the current track at its last volume
+        const cur = curTrack.current;
+        if (cur) {
+          const a = els.current[cur];
+          if (a && a.paused) a.play().catch(() => {});
+        }
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Hard-stop every track except `keep`
   function silenceAllExcept(keep: TrackName | null) {
     ALL_TRACKS.forEach(name => {
       if (name === keep) return;
@@ -55,21 +84,18 @@ function useGameAudio(screen: Screen) {
     });
   }
 
-  // RAF-based crossfade: fades `prev` out and `next` in over FADE_MS
-  function crossfadeTo(next: TrackName) {
+  // RAF crossfade: null = fade out everything (silence)
+  function crossfadeTo(next: TrackName | null) {
     if (next === curTrack.current) return;
 
-    const prev     = curTrack.current;
-    const prevEl   = prev ? els.current[prev] : null;
-    const nextEl   = els.current[next];
-    if (!nextEl) return;
+    const prev   = curTrack.current;
+    const prevEl = prev ? els.current[prev] : null;
+    const nextEl = next ? els.current[next] : null;
 
     curTrack.current = next;
-
-    // Kill any in-progress fade
     cancelAnimationFrame(rafId.current);
 
-    // Silence everything that isn't prev or next
+    // Immediately silence anything not involved in this crossfade
     ALL_TRACKS.forEach(name => {
       if (name !== next && name !== prev) {
         const a = els.current[name];
@@ -82,25 +108,22 @@ function useGameAudio(screen: Screen) {
     const prevStart = prevEl ? prevEl.volume : 0;
     const start     = performance.now();
 
-    // Start the incoming track
-    if (nextEl.paused) nextEl.play().catch(() => {});
+    // Start incoming track (if any)
+    if (nextEl && nextEl.paused) nextEl.play().catch(() => {});
 
     function tick(now: number) {
       const t = Math.min((now - start) / FADE_MS, 1);
 
-      // Fade out previous
       if (prevEl) {
         prevEl.volume = Math.max(0, prevStart * (1 - t));
         if (t >= 1) { prevEl.volume = 0; if (!prevEl.paused) prevEl.pause(); }
       }
-      // Fade in next
-      nextEl.volume = Math.min(1, t);
+      if (nextEl) nextEl.volume = Math.min(1, t);
 
       if (t < 1) {
         rafId.current = requestAnimationFrame(tick);
       } else {
-        nextEl.volume = 1;
-        // Guarantee silence on everything else
+        if (nextEl) nextEl.volume = 1;
         silenceAllExcept(next);
       }
     }
@@ -108,7 +131,7 @@ function useGameAudio(screen: Screen) {
     rafId.current = requestAnimationFrame(tick);
   }
 
-  // React to screen changes — runs after audio is unlocked
+  // Switch tracks on every screen change (once unlocked)
   useEffect(() => {
     if (!unlocked.current) return;
     crossfadeTo(getTrackForScreen(screen));
@@ -116,42 +139,39 @@ function useGameAudio(screen: Screen) {
   }, [screen]);
 
   // ── startAudio ────────────────────────────────────────────────
-  // MUST be called from a real user gesture (iOS Safari autoplay policy).
-  // We call play() on every element synchronously here — that permanently
-  // "unlocks" them so future play() calls from useEffect work freely.
+  // Called from a real user gesture to unlock iOS audio.
+  // Unlock = call play() synchronously in the handler, then immediately pause.
+  // After that, any play() call (including from useEffect) works on iOS.
   const startAudio = useCallback(() => {
     if (unlocked.current) return;
     unlocked.current = true;
 
-    // Unlock every track silently inside the gesture handler
+    // Unlock all tracks silently in the gesture handler
     ALL_TRACKS.forEach(name => {
       const a = els.current[name];
       if (!a) return;
       a.volume = 0;
-      // play() in gesture handler = iOS unlock; catch AbortError from immediate pause
       a.play().catch(() => {});
       a.pause();
       a.currentTime = 0;
     });
 
-    // Start the correct track for the current screen right now
+    // Start the correct track for the current screen (may be null = silence)
     const track = getTrackForScreen(screenRef.current);
     curTrack.current = track;
-    const a = els.current[track];
-    if (a) {
-      if (a.paused) a.play().catch(() => {});
-      // Fade it in with RAF
+    if (track) {
+      const a = els.current[track];
+      if (a && a.paused) a.play().catch(() => {});
       const start = performance.now();
       function fadeIn(now: number) {
         const t = Math.min((now - start) / FADE_MS, 1);
-        a.volume = t;
+        if (els.current[track]) els.current[track].volume = t;
         if (t < 1) rafId.current = requestAnimationFrame(fadeIn);
-        else a.volume = 1;
       }
       rafId.current = requestAnimationFrame(fadeIn);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // stable — all state via refs
+  }, []); // stable — reads only refs
 
   return { startAudio };
 }
@@ -589,7 +609,7 @@ export default function BirthdayGame() {
           </motion.div>
         </div>
         <div className="g-intro-btn-wrap">
-          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => { startAudio(); setTimeout(() => setScreen('serve'), 400); }}>
+          <button className="g-btn g-btn-orange" style={{ width: '100%' }} onClick={() => { startAudio(); setScreen('serve'); }}>
             Play Now
           </button>
         </div>
