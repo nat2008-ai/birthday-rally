@@ -287,7 +287,7 @@ const GIFTS = [
     closedImageRot: -13.07,
     openedContent: (
       <>
-        <p style={{fontSize: 62, lineHeight: 1.08, marginTop: 4, marginBottom: 0}}>🎂📽️🍿🧋</p>
+        <p style={{fontSize: 62, lineHeight: 1.08, marginTop: 32, marginBottom: 0}}>🎂📽️🍿🧋</p>
         <p style={{fontSize: 28, marginTop: 2, lineHeight: 1.14}}>Movie Date<br />you &amp; me? <span style={{fontSize: 22}}>👀</span></p>
         <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.45, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the<br />movie ends.</p>
         <p style={{fontSize: 17, marginTop: 6, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 28}}>🎩🕶️🕺🎤</span></p>
