@@ -363,10 +363,24 @@ export default function BirthdayGame() {
   const whistleSfx = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    spikeSfx.current   = new Audio('/audio/tap-spike.mp3');
+    // Whistle — plain Audio at default volume
     whistleSfx.current = new Audio('/audio/whistle.mp3');
-    spikeSfx.current.loop   = false;
     whistleSfx.current.loop = false;
+
+    // Spike SFX — boost volume 1.5× via Web Audio GainNode
+    const spkAudio = new Audio('/audio/tap-spike.mp3');
+    spkAudio.loop = false;
+    spikeSfx.current = spkAudio;
+    try {
+      const ctx = new AudioContext();
+      const src = ctx.createMediaElementSource(spkAudio);
+      const gain = ctx.createGain();
+      gain.gain.value = 1.5;
+      src.connect(gain);
+      gain.connect(ctx.destination);
+      // iOS requires AudioContext resume inside a gesture; resume on first play
+      spkAudio.addEventListener('play', () => ctx.resume(), { once: true });
+    } catch (_) { /* fallback: plays at native volume */ }
   }, []);
 
   // Play whistle once when NICE SPIKE! screen appears
