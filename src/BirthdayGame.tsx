@@ -358,6 +358,25 @@ export default function BirthdayGame() {
 
   const { startAudio } = useGameAudio(screen);
 
+  // ── SFX refs ──────────────────────────────────────────────────
+  const spikeSfx   = useRef<HTMLAudioElement | null>(null);
+  const whistleSfx = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    spikeSfx.current   = new Audio('/audio/tap-spike.mp3');
+    whistleSfx.current = new Audio('/audio/whistle.mp3');
+    spikeSfx.current.loop   = false;
+    whistleSfx.current.loop = false;
+  }, []);
+
+  // Play whistle once when NICE SPIKE! screen appears
+  useEffect(() => {
+    if (screen === 'rally_won') {
+      const sfx = whistleSfx.current;
+      if (sfx) { sfx.currentTime = 0; sfx.play().catch(() => {}); }
+    }
+  }, [screen]);
+
   const missTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartY = useRef(0);
@@ -466,6 +485,14 @@ export default function BirthdayGame() {
     setRipplePos({ x: cx, y: cy });
     setShowRipple(true);
     setTimeout(() => setShowRipple(false), 700);
+
+    // Play spike SFX immediately on tap
+    const spk = spikeSfx.current;
+    if (spk) { spk.currentTime = 0; spk.play().catch(() => {}); }
+
+    // Unlock whistle on iOS (play+pause in gesture handler so it can fire later)
+    const whi = whistleSfx.current;
+    if (whi && whi.paused) { whi.play().catch(() => {}); whi.pause(); whi.currentTime = 0; }
 
     // Ball arcs away (850ms), drops to floor (350ms), then rally_won shows
     setScreen('spike_away');
