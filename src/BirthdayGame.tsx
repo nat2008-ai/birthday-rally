@@ -287,11 +287,10 @@ const GIFTS = [
     closedImageRot: -13.07,
     openedContent: (
       <>
-        <p style={{fontSize: 52, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
-        <p style={{fontSize: 28, marginTop: 10, lineHeight: 1.14}}>Movie Date</p>
-        <p style={{fontSize: 28, lineHeight: 1.14}}>you &amp; me? <span style={{fontSize: 22}}>👀</span></p>
-        <p style={{fontSize: 17, marginTop: 14, lineHeight: 1.45, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
-        <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 28}}>🎩🕶️🕺🎤</span></p>
+        <p style={{fontSize: 88, lineHeight: 1.0, marginBottom: 0, marginTop: 20}}>🎁</p>
+        <p style={{fontSize: 34, lineHeight: 1.03, marginTop: 2, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
+        <p style={{fontSize: 17, marginTop: 12, lineHeight: 1.45}}>Enjoy 1x night free stay</p>
+        <p style={{fontSize: 17, marginTop: 6, lineHeight: 1.45}}>Redeem anytime</p>
       </>
     ),
     openedBtn: 'Next Rally',
@@ -304,10 +303,11 @@ const GIFTS = [
     closedImageRot: 0,
     openedContent: (
       <>
-        <p style={{fontSize: 88, lineHeight: 1.0, marginBottom: 0, marginTop: 20}}>🎁</p>
-        <p style={{fontSize: 34, lineHeight: 1.03, marginTop: 2, whiteSpace: 'pre-line'}}>{'EXCLUSIVE\nBATAM TRIP\n🗣️🗣️🗣️'}</p>
-        <p style={{fontSize: 17, marginTop: 12, lineHeight: 1.45}}>Enjoy 1x night free stay</p>
-        <p style={{fontSize: 17, marginTop: 6, lineHeight: 1.45}}>Redeem anytime</p>
+        <p style={{fontSize: 52, lineHeight: 1.08}}>🎂📽️🍿🧋</p>
+        <p style={{fontSize: 28, marginTop: 10, lineHeight: 1.14}}>Movie Date</p>
+        <p style={{fontSize: 28, lineHeight: 1.14}}>you &amp; me? <span style={{fontSize: 22}}>👀</span></p>
+        <p style={{fontSize: 17, marginTop: 14, lineHeight: 1.45, color: '#444'}}>Coupon include 1 dessert treat! Redeem it early before the movie ends.</p>
+        <p style={{fontSize: 17, marginTop: 10, lineHeight: 1.4}}>(Hee-hee) <span style={{fontSize: 28}}>🎩🕶️🕺🎤</span></p>
       </>
     ),
     openedBtn: 'Tap to continue',
