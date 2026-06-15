@@ -1,0 +1,37 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 325 97" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Separate net layer / keep above or below ball as needed">
+<rect id="Net shadow" x="6" y="89" width="314" height="8" rx="4" fill="var(--fill-0, black)" fill-opacity="0.34"/>
+<rect id="Net top band" width="325" height="8" rx="2" fill="var(--fill-0, #F4F4F4)"/>
+<rect id="Net bottom band" x="6" y="53" width="314" height="5" rx="2" fill="var(--fill-0, #E8E8E8)"/>
+<rect id="Left net post" x="2" y="6" width="5" height="88" rx="2" fill="var(--fill-0, #F5F5F5)"/>
+<rect id="Right net post" x="319" y="6" width="5" height="88" rx="2" fill="var(--fill-0, #F5F5F5)"/>
+<line id="Net mesh vertical" x1="15.5" y1="53" x2="15.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_2" x1="29.5" y1="53" x2="29.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_3" x1="43.5" y1="53" x2="43.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_4" x1="57.5" y1="53" x2="57.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_5" x1="71.5" y1="53" x2="71.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_6" x1="85.5" y1="53" x2="85.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_7" x1="99.5" y1="53" x2="99.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_8" x1="113.5" y1="53" x2="113.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_9" x1="127.5" y1="53" x2="127.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_10" x1="141.5" y1="53" x2="141.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_11" x1="155.5" y1="53" x2="155.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_12" x1="169.5" y1="53" x2="169.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_13" x1="183.5" y1="53" x2="183.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_14" x1="197.5" y1="53" x2="197.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_15" x1="211.5" y1="53" x2="211.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_16" x1="225.5" y1="53" x2="225.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_17" x1="239.5" y1="53" x2="239.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_18" x1="253.5" y1="53" x2="253.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_19" x1="267.5" y1="53" x2="267.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_20" x1="281.5" y1="53" x2="281.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_21" x1="295.5" y1="53" x2="295.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh vertical_22" x1="309.5" y1="53" x2="309.5" y2="8" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal" x1="6" y1="55.5" x2="320" y2="55.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal_2" x1="6" y1="14.5" x2="320" y2="14.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal_3" x1="6" y1="30.5" x2="320" y2="30.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal_4" x1="6" y1="22.5" x2="320" y2="22.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal_5" x1="6" y1="38.5" x2="320" y2="38.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+<line id="Net mesh horizontal_6" x1="6" y1="46.5" x2="320" y2="46.5" stroke="var(--stroke-0, white)" stroke-opacity="0.48"/>
+</g>
+</svg>

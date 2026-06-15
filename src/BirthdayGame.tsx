@@ -181,18 +181,18 @@ function useGameAudio(screen: Screen) {
 // IMAGE ASSETS (from Figma)
 // ─────────────────────────────────────────────
 const IMG = {
-  ball:          'https://www.figma.com/api/mcp/asset/372a4d89-d11f-4d96-b510-db9b5fd7bfe1',
-  net:           'https://www.figma.com/api/mcp/asset/961f8486-4f6d-4175-853d-a34174937eb7',
-  horizon:       'https://www.figma.com/api/mcp/asset/b942bb4b-52d7-4b1b-b335-dc661bafa529',
-  ballShadow:    'https://www.figma.com/api/mcp/asset/d5ef49cb-c4ca-4fb6-bd3a-d13f5a66c1e1',
-  swipeHand:     'https://www.figma.com/api/mcp/asset/a69cae31-34b0-4863-a1fc-c5cc7a5eaacb',
-  giftIcon:      'https://www.figma.com/api/mcp/asset/19a04af7-00cc-47c0-a5d9-8637b496f505',
-  letter:        'https://www.figma.com/api/mcp/asset/28bd644d-af58-41c6-92a1-8205efae5e6e',
-  coupon:        'https://www.figma.com/api/mcp/asset/50d10c2c-af73-4304-bce8-26aa2dd4a427',
-  island:        'https://www.figma.com/api/mcp/asset/0d964fd0-fbd5-4000-b216-0aa3c6b9c1e0',
-  telepathy:     'https://www.figma.com/api/mcp/asset/68502499-3c90-4b4f-b650-78cceed38a16',
-  popperL:       'https://www.figma.com/api/mcp/asset/ac0ba5c9-8a31-4dff-8fb5-43776a8faaa3',
-  popperFinale:  'https://www.figma.com/api/mcp/asset/c1762aab-ac0f-42a9-9b28-fedab2ab0dcb',
+  ball:          '/images/ball.svg',
+  net:           '/images/net.svg',
+  horizon:       '/images/horizon.svg',
+  ballShadow:    '/images/ball-shadow.svg',
+  swipeHand:     '/images/swipe-hand.svg',
+  giftIcon:      '/images/gift-icon.svg',
+  letter:        '/images/letter.png',
+  coupon:        '/images/coupon.png',
+  island:        '/images/island.svg',
+  telepathy:     '/images/telepathy.png',
+  popperL:       '/images/popper-l.png',
+  popperFinale:  '/images/popper-finale.png',
 };
 
 // ─────────────────────────────────────────────
